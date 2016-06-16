@@ -45,6 +45,9 @@
 #include <std_msgs/String.h>
 #include <string>
 
+#define CIRCLE_RADIUS 20.0
+#define CIRCLE_DISTANCE 55.0
+
 namespace gazebo
 {
 
@@ -55,8 +58,8 @@ public:
   virtual ~GazeboTruck();
 
   // http://www.mbzirc.com/assets/files/MBZIRC-Challenge-Description-Document-V2-7SEP2015.pdf
-  static const float CIRCLE_RADIUS = 20.0;
-  static const float CIRCLE_DISTANCE = 55.0;
+  //static const float CIRCLE_RADIUS = 20.0;
+  //static const float CIRCLE_DISTANCE = 55.0;
 
 protected:
   virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);

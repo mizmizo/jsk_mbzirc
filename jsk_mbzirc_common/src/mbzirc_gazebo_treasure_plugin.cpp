@@ -74,13 +74,22 @@ void GazeboTreasure::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
       static_object_ = _sdf->GetElement("staticObject")->Get<std::string>() == "true"?true:false;
     }
 
-  // boost::random::mt19937 rng;
+  double x,y;
+#if BOOST_VERSION>104601
   boost::random::random_device rng;
   boost::random::uniform_int_distribution<> x_rand(-40, 40);
   boost::random::uniform_int_distribution<> y_rand(-20, 20);
-  double x = x_rand(rng);
-  double y = y_rand(rng);
+#else
+  boost::mt19937 rng;
+  boost::uniform_int<> x_rand(-40,40);
+  boost::uniform_int<> y_rand(-20,20);
+#endif
+  x = x_rand(rng);
+  y = y_rand(rng);
+
+
   model_->SetLinkWorldPose(math::Pose(x, y, 0.2, 0, 0, 0), link_);
+
 
   if (!link)
   {
@@ -117,9 +126,16 @@ void GazeboTreasure::Update()
       return;
     }
   // produces randomness out of thin air
+
+#if BOOST_VERSION>104601
   static boost::random::mt19937 rng;
   // distribution that maps to 0..9
   static boost::random::uniform_int_distribution<> change_direction(0, 299);
+#else
+  static boost::mt19937 rng;
+  // distribution that maps to 0..9
+  static boost::uniform_int<> change_direction(-40,40);
+#endif
 
   // normal distribution
   static boost::normal_distribution<> nd(0.0, 1.0);
